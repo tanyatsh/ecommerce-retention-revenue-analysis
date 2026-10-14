@@ -1,0 +1,314 @@
+{
+  "generated_at": "2026-10-14T05:07:35+10:00",
+  "source_rows": {
+    "monthly_revenue_orders.csv": 20,
+    "customer_purchase_summary.csv": 94703,
+    "cohort_retention.csv": 260,
+    "cohort_horizon_summary.csv": 4,
+    "rfm_segment_summary.csv": 8,
+    "monthly_delivery_reviews.csv": 20
+  },
+  "kpis": {
+    "gross_order_value": 15683706.74,
+    "orders": 97905,
+    "orders_with_gmv": 97905,
+    "unique_customers": 94703,
+    "average_order_value": 160.19,
+    "repeat_customers": 2874,
+    "repeat_customer_share": 0.030347507470724264,
+    "delivered_orders": 96203,
+    "late_delivery_rate": 0.06788769580990198,
+    "reviewed_orders": 95560,
+    "average_review_score": 4.1565787637784295,
+    "retention_horizons": {
+      "1": 0.004825731205641698,
+      "3": 0.0025866461128457026,
+      "6": 0.002289995029468153,
+      "12": 0.0017781425249623855
+    }
+  },
+  "checks_passed": 56,
+  "checks_failed": 0,
+  "checks": [
+    {
+      "check": "file_exists::monthly_revenue_orders.csv",
+      "passed": true,
+      "detail": "C:\\Users\\User\\Documents\\ChatGPT\\ecommerce-retention-analysis\\data\\processed\\monthly_revenue_orders.csv"
+    },
+    {
+      "check": "header_exact::monthly_revenue_orders.csv",
+      "passed": true,
+      "detail": "expected=['purchase_month', 'order_count', 'orders_with_gmv', 'orders_missing_gmv', 'orders_with_payment', 'orders_missing_payment', 'unique_customers', 'item_value', 'freight_value', 'gmv', 'payment_value', 'average_order_gmv', 'period_quality']; actual=['purchase_month', 'order_count', 'orders_with_gmv', 'orders_missing_gmv', 'orders_with_payment', 'orders_missing_payment', 'unique_customers', 'item_value', 'freight_value', 'gmv', 'payment_value', 'average_order_gmv', 'period_quality']"
+    },
+    {
+      "check": "has_rows::monthly_revenue_orders.csv",
+      "passed": true,
+      "detail": "rows=20"
+    },
+    {
+      "check": "file_exists::customer_purchase_summary.csv",
+      "passed": true,
+      "detail": "C:\\Users\\User\\Documents\\ChatGPT\\ecommerce-retention-analysis\\data\\processed\\customer_purchase_summary.csv"
+    },
+    {
+      "check": "header_exact::customer_purchase_summary.csv",
+      "passed": true,
+      "detail": "expected=['customer_unique_id', 'first_reporting_purchase_timestamp', 'last_reporting_purchase_timestamp', 'reporting_period_order_count', 'reporting_period_item_value', 'reporting_period_freight_value', 'reporting_period_gmv', 'reporting_period_payment_value', 'orders_missing_gmv', 'orders_missing_payment', 'is_repeat_customer']; actual=['customer_unique_id', 'first_reporting_purchase_timestamp', 'last_reporting_purchase_timestamp', 'reporting_period_order_count', 'reporting_period_item_value', 'reporting_period_freight_value', 'reporting_period_gmv', 'reporting_period_payment_value', 'orders_missing_gmv', 'orders_missing_payment', 'is_repeat_customer']"
+    },
+    {
+      "check": "has_rows::customer_purchase_summary.csv",
+      "passed": true,
+      "detail": "rows=94703"
+    },
+    {
+      "check": "file_exists::cohort_retention.csv",
+      "passed": true,
+      "detail": "C:\\Users\\User\\Documents\\ChatGPT\\ecommerce-retention-analysis\\data\\processed\\cohort_retention.csv"
+    },
+    {
+      "check": "header_exact::cohort_retention.csv",
+      "passed": true,
+      "detail": "expected=['cohort_month', 'month_number', 'cohort_size', 'retained_customers', 'observation_cutoff', 'observation_window_complete', 'retention_rate']; actual=['cohort_month', 'month_number', 'cohort_size', 'retained_customers', 'observation_cutoff', 'observation_window_complete', 'retention_rate']"
+    },
+    {
+      "check": "has_rows::cohort_retention.csv",
+      "passed": true,
+      "detail": "rows=260"
+    },
+    {
+      "check": "file_exists::cohort_horizon_summary.csv",
+      "passed": true,
+      "detail": "C:\\Users\\User\\Documents\\ChatGPT\\ecommerce-retention-analysis\\data\\processed\\cohort_horizon_summary.csv"
+    },
+    {
+      "check": "header_exact::cohort_horizon_summary.csv",
+      "passed": true,
+      "detail": "expected=['month_number', 'mature_cohort_count', 'eligible_customer_count', 'retained_customer_count', 'weighted_retention_rate']; actual=['month_number', 'mature_cohort_count', 'eligible_customer_count', 'retained_customer_count', 'weighted_retention_rate']"
+    },
+    {
+      "check": "has_rows::cohort_horizon_summary.csv",
+      "passed": true,
+      "detail": "rows=4"
+    },
+    {
+      "check": "file_exists::rfm_segment_summary.csv",
+      "passed": true,
+      "detail": "C:\\Users\\User\\Documents\\ChatGPT\\ecommerce-retention-analysis\\data\\processed\\rfm_segment_summary.csv"
+    },
+    {
+      "check": "header_exact::rfm_segment_summary.csv",
+      "passed": true,
+      "detail": "expected=['rfm_segment', 'customer_count', 'customer_share', 'order_count', 'monetary_value']; actual=['rfm_segment', 'customer_count', 'customer_share', 'order_count', 'monetary_value']"
+    },
+    {
+      "check": "has_rows::rfm_segment_summary.csv",
+      "passed": true,
+      "detail": "rows=8"
+    },
+    {
+      "check": "file_exists::monthly_delivery_reviews.csv",
+      "passed": true,
+      "detail": "C:\\Users\\User\\Documents\\ChatGPT\\ecommerce-retention-analysis\\data\\processed\\monthly_delivery_reviews.csv"
+    },
+    {
+      "check": "header_exact::monthly_delivery_reviews.csv",
+      "passed": true,
+      "detail": "expected=['purchase_month', 'delivered_order_count', 'reviewed_order_count', 'unreviewed_order_count', 'multiple_review_order_count', 'review_coverage_rate', 'average_delivery_days', 'average_delivery_delay_days', 'late_delivery_rate', 'average_review_score', 'late_delivery_review_score', 'on_time_review_score']; actual=['purchase_month', 'delivered_order_count', 'reviewed_order_count', 'unreviewed_order_count', 'multiple_review_order_count', 'review_coverage_rate', 'average_delivery_days', 'average_delivery_delay_days', 'late_delivery_rate', 'average_review_score', 'late_delivery_review_score', 'on_time_review_score']"
+    },
+    {
+      "check": "has_rows::monthly_delivery_reviews.csv",
+      "passed": true,
+      "detail": "rows=20"
+    },
+    {
+      "check": "revenue_exact_reporting_months",
+      "passed": true,
+      "detail": "['2017-01-01', '2017-02-01', '2017-03-01', '2017-04-01', '2017-05-01', '2017-06-01', '2017-07-01', '2017-08-01', '2017-09-01', '2017-10-01', '2017-11-01', '2017-12-01', '2018-01-01', '2018-02-01', '2018-03-01', '2018-04-01', '2018-05-01', '2018-06-01', '2018-07-01', '2018-08-01']"
+    },
+    {
+      "check": "experience_exact_reporting_months",
+      "passed": true,
+      "detail": "['2017-01-01', '2017-02-01', '2017-03-01', '2017-04-01', '2017-05-01', '2017-06-01', '2017-07-01', '2017-08-01', '2017-09-01', '2017-10-01', '2017-11-01', '2017-12-01', '2018-01-01', '2018-02-01', '2018-03-01', '2018-04-01', '2018-05-01', '2018-06-01', '2018-07-01', '2018-08-01']"
+    },
+    {
+      "check": "revenue_month_key_unique",
+      "passed": true,
+      "detail": "rows=20"
+    },
+    {
+      "check": "experience_month_key_unique",
+      "passed": true,
+      "detail": "rows=20"
+    },
+    {
+      "check": "monthly_gmv_reconciles",
+      "passed": true,
+      "detail": "gmv = item_value + freight_value"
+    },
+    {
+      "check": "monthly_aov_complete_case",
+      "passed": true,
+      "detail": "average_order_gmv = gmv / orders_with_gmv"
+    },
+    {
+      "check": "customer_key_unique",
+      "passed": true,
+      "detail": "rows=94703"
+    },
+    {
+      "check": "customer_key_nonblank",
+      "passed": true,
+      "detail": "blank=0"
+    },
+    {
+      "check": "repeat_customer_rule",
+      "passed": true,
+      "detail": "is_repeat_customer iff reporting_period_order_count >= 2"
+    },
+    {
+      "check": "cohort_key_unique",
+      "passed": true,
+      "detail": "rows=260"
+    },
+    {
+      "check": "cohort_immature_rates_blank",
+      "passed": true,
+      "detail": "right-censored cells remain blank"
+    },
+    {
+      "check": "cohort_complete_rates_reconcile",
+      "passed": true,
+      "detail": "retained_customers / cohort_size"
+    },
+    {
+      "check": "cohort_month_age_range",
+      "passed": true,
+      "detail": "expected 0-12"
+    },
+    {
+      "check": "cohort_horizons_exact",
+      "passed": true,
+      "detail": "[1, 3, 6, 12]"
+    },
+    {
+      "check": "weighted_retention_reconciles",
+      "passed": true,
+      "detail": "retained / eligible customers"
+    },
+    {
+      "check": "rfm_segment_key_unique",
+      "passed": true,
+      "detail": "['Recent one-time', 'Cooling one-time', 'Lapsed one-time', 'High-value lapsed one-time', 'High-value recent one-time', 'At-risk repeat', 'Loyal repeat', 'Champions']"
+    },
+    {
+      "check": "rfm_customer_population",
+      "passed": true,
+      "detail": "rfm=94703; customers=94703"
+    },
+    {
+      "check": "rfm_order_population",
+      "passed": true,
+      "detail": "rfm=97905; customers=97905"
+    },
+    {
+      "check": "rfm_monetary_population",
+      "passed": true,
+      "detail": "rfm=15683706.74; customers=15683706.74"
+    },
+    {
+      "check": "rfm_shares_sum_to_one",
+      "passed": true,
+      "detail": "segment shares"
+    },
+    {
+      "check": "review_population_reconciles",
+      "passed": true,
+      "detail": "reviewed + unreviewed = delivered"
+    },
+    {
+      "check": "review_coverage_reconciles",
+      "passed": true,
+      "detail": "reviewed / delivered"
+    },
+    {
+      "check": "late_delivery_rates_bounded",
+      "passed": true,
+      "detail": "all rates in [0,1]"
+    },
+    {
+      "check": "json_valid::olist_portfolio_theme.json",
+      "passed": true,
+      "detail": "powerbi\\theme\\olist_portfolio_theme.json"
+    },
+    {
+      "check": "json_valid::OlistRetentionDashboard.pbip",
+      "passed": true,
+      "detail": "powerbi\\pbip\\OlistRetentionDashboard.pbip"
+    },
+    {
+      "check": "json_valid::definition.pbir",
+      "passed": true,
+      "detail": "powerbi\\pbip\\OlistRetentionDashboard.Report\\definition.pbir"
+    },
+    {
+      "check": "json_valid::.platform",
+      "passed": true,
+      "detail": "powerbi\\pbip\\OlistRetentionDashboard.Report\\.platform"
+    },
+    {
+      "check": "json_valid::version.json",
+      "passed": true,
+      "detail": "powerbi\\pbip\\OlistRetentionDashboard.Report\\definition\\version.json"
+    },
+    {
+      "check": "json_valid::report.json",
+      "passed": true,
+      "detail": "powerbi\\pbip\\OlistRetentionDashboard.Report\\definition\\report.json"
+    },
+    {
+      "check": "json_valid::pages.json",
+      "passed": true,
+      "detail": "powerbi\\pbip\\OlistRetentionDashboard.Report\\definition\\pages\\pages.json"
+    },
+    {
+      "check": "json_valid::definition.pbism",
+      "passed": true,
+      "detail": "powerbi\\pbip\\OlistRetentionDashboard.SemanticModel\\definition.pbism"
+    },
+    {
+      "check": "json_valid::.platform",
+      "passed": true,
+      "detail": "powerbi\\pbip\\OlistRetentionDashboard.SemanticModel\\.platform"
+    },
+    {
+      "check": "pbir_has_two_pages",
+      "passed": true,
+      "detail": "['3b907662fe814f5aad31', '9af4b1d78c8e42c79d55']"
+    },
+    {
+      "check": "semantic_model_tables_exact",
+      "passed": true,
+      "detail": "['Cohort Horizons.tmdl', 'Cohort Retention.tmdl', 'Customers.tmdl', 'Date.tmdl', 'Monthly Experience.tmdl', 'Monthly Revenue.tmdl', 'RFM Segments.tmdl']"
+    },
+    {
+      "check": "relationship_count_exact",
+      "passed": true,
+      "detail": "two Date-to-monthly-fact relationships"
+    },
+    {
+      "check": "relationships_single_direction",
+      "passed": true,
+      "detail": "no bidirectional relationship"
+    },
+    {
+      "check": "required_dax_measures_present",
+      "passed": true,
+      "detail": "missing=[]"
+    },
+    {
+      "check": "aov_uses_complete_case_denominator",
+      "passed": true,
+      "detail": "Orders with GMV denominator"
+    }
+  ]
+}

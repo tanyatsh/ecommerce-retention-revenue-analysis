@@ -1,0 +1,173 @@
+// Calculated table. Mark Date[Date] as the date column and sort Year Month by Year Month Sort.
+Date =
+VAR StartDate = DATE(2017, 1, 1)
+VAR EndDate = DATE(2018, 8, 31)
+RETURN
+    ADDCOLUMNS(
+        CALENDAR(StartDate, EndDate),
+        "Month Start", DATE(YEAR([Date]), MONTH([Date]), 1),
+        "Year", YEAR([Date]),
+        "Month Number", MONTH([Date]),
+        "Month", FORMAT([Date], "MMM"),
+        "Year Month", FORMAT([Date], "YYYY-MM"),
+        "Year Month Sort", YEAR([Date]) * 100 + MONTH([Date])
+    )
+
+// Executive Overview
+Gross Order Value (GMV) =
+    SUM('Monthly Revenue'[gmv])
+
+Item Value =
+    SUM('Monthly Revenue'[item_value])
+
+Freight =
+    SUM('Monthly Revenue'[freight_value])
+
+Payments =
+    SUM('Monthly Revenue'[payment_value])
+
+Orders =
+    SUM('Monthly Revenue'[order_count])
+
+Orders with GMV =
+    SUM('Monthly Revenue'[orders_with_gmv])
+
+Orders Missing GMV =
+    SUM('Monthly Revenue'[orders_missing_gmv])
+
+Average Order Value =
+    DIVIDE([Gross Order Value (GMV)], [Orders with GMV])
+
+Unique Customers =
+    COUNTROWS('Customers')
+
+Monthly Purchasing Customers =
+    IF(
+        HASONEVALUE('Date'[Year Month]),
+        SUM('Monthly Revenue'[unique_customers])
+    )
+
+Repeat Customers =
+    CALCULATE(
+        COUNTROWS('Customers'),
+        KEEPFILTERS('Customers'[is_repeat_customer] = TRUE())
+    )
+
+Repeat Customer Share =
+    DIVIDE([Repeat Customers], [Unique Customers])
+
+Previous Month GMV =
+    CALCULATE(
+        [Gross Order Value (GMV)],
+        DATEADD('Date'[Date], -1, MONTH)
+    )
+
+GMV Month-over-Month % =
+    DIVIDE(
+        [Gross Order Value (GMV)] - [Previous Month GMV],
+        [Previous Month GMV]
+    )
+
+// Exact-month cohort retention. Use only in a cohort_month by month_number matrix.
+Cohort Retention % =
+    MAX('Cohort Retention'[retention_rate])
+
+Weighted Retention % =
+    DIVIDE(
+        SUM('Cohort Horizons'[retained_customer_count]),
+        SUM('Cohort Horizons'[eligible_customer_count])
+    )
+
+Month 1 Retention % =
+    CALCULATE([Weighted Retention %], 'Cohort Horizons'[month_number] = 1)
+
+Month 3 Retention % =
+    CALCULATE([Weighted Retention %], 'Cohort Horizons'[month_number] = 3)
+
+Month 6 Retention % =
+    CALCULATE([Weighted Retention %], 'Cohort Horizons'[month_number] = 6)
+
+Month 12 Retention % =
+    CALCULATE([Weighted Retention %], 'Cohort Horizons'[month_number] = 12)
+
+// RFM snapshot: 2018-09-01.
+RFM Customers =
+    SUM('RFM Segments'[customer_count])
+
+RFM Customer Share =
+    DIVIDE(
+        [RFM Customers],
+        CALCULATE([RFM Customers], REMOVEFILTERS('RFM Segments'[rfm_segment]))
+    )
+
+RFM Orders =
+    SUM('RFM Segments'[order_count])
+
+RFM Monetary Value =
+    SUM('RFM Segments'[monetary_value])
+
+// Delivery and reviews. Ratios and averages are recomputed from monthly components.
+Delivered Orders =
+    SUM('Monthly Experience'[delivered_order_count])
+
+Reviewed Orders =
+    SUM('Monthly Experience'[reviewed_order_count])
+
+Unreviewed Orders =
+    SUM('Monthly Experience'[unreviewed_order_count])
+
+Multiple-Review Orders =
+    SUM('Monthly Experience'[multiple_review_order_count])
+
+Review Coverage % =
+    DIVIDE([Reviewed Orders], [Delivered Orders])
+
+Late Deliveries =
+    SUMX(
+        'Monthly Experience',
+        'Monthly Experience'[delivered_order_count]
+            * 'Monthly Experience'[late_delivery_rate]
+    )
+
+Late Delivery Rate =
+    DIVIDE([Late Deliveries], [Delivered Orders])
+
+On-Time Delivery Rate =
+    1 - [Late Delivery Rate]
+
+Average Delivery Days =
+    DIVIDE(
+        SUMX(
+            'Monthly Experience',
+            'Monthly Experience'[delivered_order_count]
+                * 'Monthly Experience'[average_delivery_days]
+        ),
+        [Delivered Orders]
+    )
+
+Average Delivery Delay Days =
+    DIVIDE(
+        SUMX(
+            'Monthly Experience',
+            'Monthly Experience'[delivered_order_count]
+                * 'Monthly Experience'[average_delivery_delay_days]
+        ),
+        [Delivered Orders]
+    )
+
+Average Review Score =
+    DIVIDE(
+        SUMX(
+            'Monthly Experience',
+            'Monthly Experience'[reviewed_order_count]
+                * 'Monthly Experience'[average_review_score]
+        ),
+        [Reviewed Orders]
+    )
+
+Reporting Period Label =
+    "Jan 2017-Aug 2018"
+
+RFM Snapshot Label =
+    "Snapshot: Sep 1, 2018"
+

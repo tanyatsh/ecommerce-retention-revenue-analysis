@@ -1,0 +1,148 @@
+table 'Monthly Experience'
+	lineageTag: 4bed8ebf-9c5d-4530-969f-adae45333949
+
+	measure 'Delivered Orders' = SUM('Monthly Experience'[delivered_order_count])
+		formatString: #,0
+		lineageTag: 21093715-f6c6-49ed-8f6a-cf0d13c09ea0
+
+	measure 'Reviewed Orders' = SUM('Monthly Experience'[reviewed_order_count])
+		formatString: #,0
+		lineageTag: b7eee655-1845-41e0-95ca-97eb361bf4dd
+
+	measure 'Unreviewed Orders' = SUM('Monthly Experience'[unreviewed_order_count])
+		formatString: #,0
+		lineageTag: 2d6585a8-f37c-42c8-9fb6-550bc182b6da
+
+	measure 'Multiple-Review Orders' = SUM('Monthly Experience'[multiple_review_order_count])
+		formatString: #,0
+		lineageTag: ca70870f-ad2f-427c-bc80-4e9544d5ad92
+
+	measure 'Review Coverage %' = DIVIDE([Reviewed Orders], [Delivered Orders])
+		formatString: 0.00%
+		lineageTag: 0c3bc3b6-5f29-494e-a5c2-7dd4ac463591
+
+	measure 'Late Deliveries' = SUMX('Monthly Experience', 'Monthly Experience'[delivered_order_count] * 'Monthly Experience'[late_delivery_rate])
+		formatString: #,0
+		lineageTag: 2a360193-5fed-499a-ae89-01698bff6894
+
+	measure 'Late Delivery Rate' = DIVIDE([Late Deliveries], [Delivered Orders])
+		formatString: 0.00%
+		lineageTag: 60922fd1-5e7d-464b-a781-9dc7b4f60740
+
+	measure 'On-Time Delivery Rate' = 1 - [Late Delivery Rate]
+		formatString: 0.00%
+		lineageTag: ef6330cf-dd2d-49e6-b5fc-2c86b67e404b
+
+	measure 'Average Delivery Days' = DIVIDE(SUMX('Monthly Experience', 'Monthly Experience'[delivered_order_count] * 'Monthly Experience'[average_delivery_days]), [Delivered Orders])
+		formatString: 0.0
+		lineageTag: d68bf357-08d4-45a4-b615-ba7aea818e24
+
+	measure 'Average Delivery Delay Days' = DIVIDE(SUMX('Monthly Experience', 'Monthly Experience'[delivered_order_count] * 'Monthly Experience'[average_delivery_delay_days]), [Delivered Orders])
+		formatString: 0.0
+		lineageTag: 12d28119-a791-48c0-8b05-f6ff74d70803
+
+	measure 'Average Review Score' = DIVIDE(SUMX('Monthly Experience', 'Monthly Experience'[reviewed_order_count] * 'Monthly Experience'[average_review_score]), [Reviewed Orders])
+		formatString: 0.00
+		lineageTag: 7d4a48b9-c213-4950-b324-1780b222bf6e
+
+	column purchase_month
+		dataType: dateTime
+		formatString: yyyy-MM
+		lineageTag: 96105061-3077-46b6-90b8-a03ef339d23e
+		summarizeBy: none
+		sourceColumn: purchase_month
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column delivered_order_count
+		dataType: int64
+		lineageTag: 5e09b818-43b8-4d64-9b5b-a807206102b7
+		summarizeBy: sum
+		sourceColumn: delivered_order_count
+
+	column reviewed_order_count
+		dataType: int64
+		isHidden
+		lineageTag: 212cc1b2-59de-4b89-810c-8d1cf4f5eb4d
+		summarizeBy: sum
+		sourceColumn: reviewed_order_count
+
+	column unreviewed_order_count
+		dataType: int64
+		isHidden
+		lineageTag: 63d0515a-da9d-4134-89c7-2dd1910ef018
+		summarizeBy: sum
+		sourceColumn: unreviewed_order_count
+
+	column multiple_review_order_count
+		dataType: int64
+		isHidden
+		lineageTag: 1798abb5-51d6-4a89-af50-8080b837d6e4
+		summarizeBy: sum
+		sourceColumn: multiple_review_order_count
+
+	column review_coverage_rate
+		dataType: double
+		isHidden
+		formatString: 0.00%
+		lineageTag: fa0e8795-cd5a-47f6-8d23-868a7e6a729c
+		summarizeBy: none
+		sourceColumn: review_coverage_rate
+
+	column average_delivery_days
+		dataType: double
+		isHidden
+		lineageTag: 5ec148df-1cee-4af7-b121-de7c28a40b79
+		summarizeBy: none
+		sourceColumn: average_delivery_days
+
+	column average_delivery_delay_days
+		dataType: double
+		isHidden
+		lineageTag: 53aea55d-7ec3-496e-835f-5685e2759874
+		summarizeBy: none
+		sourceColumn: average_delivery_delay_days
+
+	column late_delivery_rate
+		dataType: double
+		isHidden
+		formatString: 0.00%
+		lineageTag: f7583bcf-140d-4b48-9e18-1fdde929922f
+		summarizeBy: none
+		sourceColumn: late_delivery_rate
+
+	column average_review_score
+		dataType: double
+		isHidden
+		lineageTag: a3afe1c4-aafe-41a0-9355-633fe64f7a89
+		summarizeBy: none
+		sourceColumn: average_review_score
+
+	column late_delivery_review_score
+		dataType: double
+		isHidden
+		lineageTag: 2beb335c-7939-4126-aabf-70d395407db7
+		summarizeBy: none
+		sourceColumn: late_delivery_review_score
+
+	column on_time_review_score
+		dataType: double
+		isHidden
+		lineageTag: c19230a0-f67b-4ce0-81f7-bbd3eb51d659
+		summarizeBy: none
+		sourceColumn: on_time_review_score
+
+	partition 'Monthly Experience' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:\Users\User\Documents\ChatGPT\ecommerce-retention-analysis\data\processed\monthly_delivery_reviews.csv"), [Delimiter = ",", Columns = 12, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+					Typed = Table.TransformColumnTypes(Headers, {{"purchase_month", type date}, {"delivered_order_count", Int64.Type}, {"reviewed_order_count", Int64.Type}, {"unreviewed_order_count", Int64.Type}, {"multiple_review_order_count", Int64.Type}, {"review_coverage_rate", type number}, {"average_delivery_days", type number}, {"average_delivery_delay_days", type number}, {"late_delivery_rate", type number}, {"average_review_score", type number}, {"late_delivery_review_score", type number}, {"on_time_review_score", type number}}, "en-US")
+				in
+					Typed
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,236 @@
+cultureInfo en-US
+
+	linguisticMetadata =
+			{
+			  "Version": "2.0.0",
+			  "Language": "en-US",
+			  "Entities": {
+			    "date.year_month": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Date",
+			          "ConceptualProperty": "Year Month"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "monthly_revenue.gross_order_value_gmv": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Monthly Revenue",
+			          "ConceptualProperty": "Gross Order Value (GMV)"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "customers.is_repeat_customer": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Customers",
+			          "ConceptualProperty": "is_repeat_customer"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Customer Type": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "cohort_retention.cohort_month": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Cohort Retention",
+			          "ConceptualProperty": "cohort_month"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "cohort_retention.month_number": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Cohort Retention",
+			          "ConceptualProperty": "month_number"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Month Number": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "cohort_retention.cohort_retention_": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Cohort Retention",
+			          "ConceptualProperty": "Cohort Retention %"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Retention": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "rfm_segments.rfm_segment": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "RFM Segments",
+			          "ConceptualProperty": "rfm_segment"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "RFM Segment": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "rfm_segments.rfm_customers": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "RFM Segments",
+			          "ConceptualProperty": "RFM Customers"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "date.month_start": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Date",
+			          "ConceptualProperty": "Month Start"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Month": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "cohort_retention.cohort_month_label": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Cohort Retention",
+			          "ConceptualProperty": "Cohort Month Label"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Cohort Month": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "monthly_revenue.gmv_brl_millions": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Monthly Revenue",
+			          "ConceptualProperty": "GMV (BRL millions)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "GMV (BRL millions)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "monthly_revenue.orders_thousands": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Monthly Revenue",
+			          "ConceptualProperty": "Orders (thousands)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Orders (thousands)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "rfm_segments.rfm_customers_thousands": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "RFM Segments",
+			          "ConceptualProperty": "RFM Customers (thousands)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Customers (thousands)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    }
+			  }
+			}
+		contentType: json
+

@@ -1,0 +1,85 @@
+table Date
+	lineageTag: ccd8e88d-4dd5-4780-9118-b7876069f0a7
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: yyyy-MM-dd
+		lineageTag: bf1d3c80-8b32-49e7-8b3e-c0545769d2ce
+		summarizeBy: none
+		sourceColumn: [Date]
+
+		variation Изменение
+			isDefault
+			relationship: baf3156e-c24b-4c1e-8661-46a2fba12906
+			defaultHierarchy: LocalDateTable_5c27045a-8317-4aec-83f7-b5e62a9d1272.'Date Hierarchy'
+
+	column 'Month Start'
+		dataType: dateTime
+		formatString: yyyy-MM
+		lineageTag: 75a3e7dc-97c5-413a-a486-02f58e2017b0
+		summarizeBy: none
+		sourceColumn: [Month Start]
+
+		variation Изменение
+			isDefault
+			relationship: cfb460df-c7f0-402c-bf3c-467ea180287d
+			defaultHierarchy: LocalDateTable_062871e2-c7f7-4ed7-9a2c-b88a2430421c.'Date Hierarchy'
+
+	column Year
+		dataType: int64
+		lineageTag: 4a75ccde-734d-48e5-b3f7-d84a5f98bcf2
+		summarizeBy: sum
+		sourceColumn: [Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Number'
+		dataType: int64
+		isHidden
+		lineageTag: 519a32a8-afb1-46c8-854c-71b91d321f48
+		summarizeBy: sum
+		sourceColumn: [Month Number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: string
+		lineageTag: b3b696fe-7c90-400e-b112-4665046436af
+		summarizeBy: none
+		sourceColumn: [Month]
+
+	column 'Year Month'
+		dataType: string
+		lineageTag: 9f0600ca-1e63-432e-96aa-7dec5e580f85
+		summarizeBy: none
+		sourceColumn: [Year Month]
+		sortByColumn: 'Year Month Sort'
+
+	column 'Year Month Sort'
+		dataType: int64
+		isHidden
+		lineageTag: 3a4c7a14-ac0c-4ab6-b7e6-6ea211979011
+		summarizeBy: sum
+		sourceColumn: [Year Month Sort]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Date = calculated
+		mode: import
+		source =
+				VAR StartDate = DATE(2017, 1, 1)
+				VAR EndDate = DATE(2018, 8, 31)
+				RETURN
+					ADDCOLUMNS(
+						CALENDAR(StartDate, EndDate),
+						"Month Start", DATE(YEAR([Date]), MONTH([Date]), 1),
+						"Year", YEAR([Date]),
+						"Month Number", MONTH([Date]),
+						"Month", FORMAT([Date], "MMM"),
+						"Year Month", FORMAT([Date], "YYYY-MM"),
+						"Year Month Sort", YEAR([Date]) * 100 + MONTH([Date])
+					)
+
+	annotation PBI_Id = 2d1022fb-7ebc-4b28-8e7e-947720073d0d
+

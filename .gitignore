@@ -1,0 +1,34 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# DuckDB and generated analytics data
+*.duckdb
+*.duckdb.wal
+data/raw/*.csv
+data/processed/*.csv
+data/processed/*.json
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Power BI local state and cache
+powerbi/pbip/**/.pbi/
+*.pbix
+
+# Editors and operating systems
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Temporary files
+tmp/
+*.tmp
+*.log

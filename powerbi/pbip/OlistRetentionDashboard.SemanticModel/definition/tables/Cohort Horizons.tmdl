@@ -1,0 +1,96 @@
+table 'Cohort Horizons'
+	lineageTag: 51928bed-da53-4522-9bca-53e1149671f6
+
+	measure 'Weighted Retention %' = DIVIDE(SUM('Cohort Horizons'[retained_customer_count]), SUM('Cohort Horizons'[eligible_customer_count]))
+		formatString: 0.00%
+		lineageTag: 604f1cfc-eed4-47cd-8935-0dea284af9bd
+
+	measure 'Month 1 Retention %' = CALCULATE([Weighted Retention %], 'Cohort Horizons'[month_number] = 1)
+		formatString: 0.00%
+		lineageTag: b1d2a11e-08e4-4657-b188-a49b531809dd
+
+	measure 'Month 3 Retention %' = CALCULATE([Weighted Retention %], 'Cohort Horizons'[month_number] = 3)
+		formatString: 0.00%
+		lineageTag: 56a1ed6c-e419-4982-a942-05fef8ec8027
+
+	measure 'Month 6 Retention %' = CALCULATE([Weighted Retention %], 'Cohort Horizons'[month_number] = 6)
+		formatString: 0.00%
+		lineageTag: 920e9343-a5d1-45fa-9d3c-ec21089c9504
+
+	measure 'Month 12 Retention %' = CALCULATE([Weighted Retention %], 'Cohort Horizons'[month_number] = 12)
+		formatString: 0.00%
+		lineageTag: 1500d25e-5ae1-43c5-b47b-95b50d932df9
+
+	measure 'GMV Display EN' =
+			
+			FORMAT(
+			    DIVIDE([Gross Order Value (GMV)], 1000000),
+			    "0.00",
+			    "en-US"
+			) & "M"
+		lineageTag: 23d7a5de-0b5c-4954-a9b8-eb204165f235
+
+	measure 'Orders Display EN' =
+			
+			FORMAT(
+			    DIVIDE([Orders], 1000),
+			    "0.0",
+			    "en-US"
+			) & "K"
+		lineageTag: 20cc516d-fdbd-4b01-a6fa-4fb71e9b140f
+
+	measure 'Customers Display EN' =
+			
+			FORMAT(
+			    DIVIDE([Unique Customers], 1000),
+			    "0.0",
+			    "en-US"
+			) & "K"
+		lineageTag: e47f1e4e-1340-4b47-b401-8341168d915c
+
+	column month_number
+		dataType: int64
+		isKey
+		lineageTag: 7377dcd1-a7d7-4f9e-8248-61e10b7c73e3
+		summarizeBy: none
+		sourceColumn: month_number
+
+	column mature_cohort_count
+		dataType: int64
+		lineageTag: a42978ce-bc7a-4177-b175-cff5eef5f9fb
+		summarizeBy: sum
+		sourceColumn: mature_cohort_count
+
+	column eligible_customer_count
+		dataType: int64
+		lineageTag: 32cf5b7f-cca7-4c5a-9b68-dbb4c74a61eb
+		summarizeBy: sum
+		sourceColumn: eligible_customer_count
+
+	column retained_customer_count
+		dataType: int64
+		lineageTag: a645fca1-da1a-4ac7-9f9c-06a50baddcd7
+		summarizeBy: sum
+		sourceColumn: retained_customer_count
+
+	column weighted_retention_rate
+		dataType: double
+		formatString: 0.00%
+		lineageTag: 69ef90c7-7855-43ca-9b79-5c211c0c853c
+		summarizeBy: none
+		sourceColumn: weighted_retention_rate
+
+	partition 'Cohort Horizons' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:\Users\User\Documents\ChatGPT\ecommerce-retention-analysis\data\processed\cohort_horizon_summary.csv"), [Delimiter = ",", Columns = 5, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+					Typed = Table.TransformColumnTypes(Headers, {{"month_number", Int64.Type}, {"mature_cohort_count", Int64.Type}, {"eligible_customer_count", Int64.Type}, {"retained_customer_count", Int64.Type}, {"weighted_retention_rate", type number}}, "en-US")
+				in
+					Typed
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

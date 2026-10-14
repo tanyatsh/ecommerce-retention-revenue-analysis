@@ -1,0 +1,92 @@
+table 'Cohort Retention'
+	lineageTag: 323e9c0d-3812-49a0-a99a-f9824f025082
+
+	measure 'Cohort Retention %' = MAX('Cohort Retention'[retention_rate])
+		formatString: 0.0%
+		lineageTag: cce6bef9-0643-4e74-bb83-e275b37f7a04
+
+	column cohort_month
+		dataType: dateTime
+		formatString: MMM yyyy
+		lineageTag: b5880871-5ccc-4e40-afa6-63114265fdc3
+		summarizeBy: none
+		sourceColumn: cohort_month
+
+		variation Изменение
+			isDefault
+			relationship: 1f9b74ae-2b10-4b84-a7f5-a3de7d8cf792
+			defaultHierarchy: LocalDateTable_210afa16-c71b-4910-99f9-c75c46d0954b.'Date Hierarchy'
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column month_number
+		dataType: int64
+		lineageTag: 342ff074-cada-40da-898d-96663e2b818a
+		summarizeBy: sum
+		sourceColumn: month_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column cohort_size
+		dataType: int64
+		isHidden
+		lineageTag: 482866a2-7660-49f0-827c-cb9d449da476
+		summarizeBy: sum
+		sourceColumn: cohort_size
+
+	column retained_customers
+		dataType: int64
+		lineageTag: 4f358cb4-47c6-40d2-bc21-dbe5e9d05955
+		summarizeBy: sum
+		sourceColumn: retained_customers
+
+	column observation_cutoff
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 0adff601-fc1a-46ad-b8b6-fa7f54115cde
+		summarizeBy: none
+		sourceColumn: observation_cutoff
+
+		variation Изменение
+			isDefault
+			relationship: a79ced8e-1d38-452a-9b58-464a476dd29d
+			defaultHierarchy: LocalDateTable_41358b1e-1732-4f7c-b02b-ebd73f5abef7.'Date Hierarchy'
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column observation_window_complete
+		dataType: boolean
+		lineageTag: 42f15e60-2e1c-4009-a589-8fc31f5e9447
+		summarizeBy: none
+		sourceColumn: observation_window_complete
+
+	column retention_rate
+		dataType: double
+		formatString: 0.0%
+		lineageTag: ec624f5e-a192-4abe-9158-a3e3c6815f06
+		summarizeBy: sum
+		sourceColumn: retention_rate
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cohort Month Label' = FORMAT('Cohort Retention'[cohort_month], "MMM yyyy", "en-US")
+		dataType: string
+		lineageTag: 5bdbb2d7-f3d8-4b13-8f4a-8537f7b5f26d
+		summarizeBy: none
+		sortByColumn: cohort_month
+
+	partition 'Cohort Retention' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:\Users\User\Documents\ChatGPT\ecommerce-retention-analysis\data\processed\cohort_retention.csv"), [Delimiter = ",", Columns = 7, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+					Typed = Table.TransformColumnTypes(Headers, {{"cohort_month", type date}, {"month_number", Int64.Type}, {"cohort_size", Int64.Type}, {"retained_customers", Int64.Type}, {"observation_cutoff", type date}, {"observation_window_complete", type logical}, {"retention_rate", type number}}, "en-US")
+				in
+					Typed
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

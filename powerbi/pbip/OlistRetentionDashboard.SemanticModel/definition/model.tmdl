@@ -1,0 +1,31 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["Monthly Revenue","Customers","Cohort Retention","Cohort Horizons","RFM Segments","Monthly Experience"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table 'Cohort Horizons'
+ref table 'Cohort Retention'
+ref table Customers
+ref table Date
+ref table 'Monthly Experience'
+ref table 'Monthly Revenue'
+ref table 'RFM Segments'
+ref table DateTableTemplate_b417f944-d1bb-439a-9fff-8f4f95105fd8
+ref table LocalDateTable_210afa16-c71b-4910-99f9-c75c46d0954b
+ref table LocalDateTable_41358b1e-1732-4f7c-b02b-ebd73f5abef7
+ref table LocalDateTable_2ffe9be0-098a-47e0-b005-4c26f7b1dc29
+ref table LocalDateTable_bebb2b6c-41fc-4ee4-9011-32ffc02906ed
+ref table LocalDateTable_5c27045a-8317-4aec-83f7-b5e62a9d1272
+ref table LocalDateTable_062871e2-c7f7-4ed7-9a2c-b88a2430421c
+
+ref cultureInfo en-US
+

@@ -1,0 +1,164 @@
+table 'Monthly Revenue'
+	lineageTag: f9a797e2-679a-4404-97c5-f74343d878e5
+
+	measure 'Gross Order Value (GMV)' = SUM('Monthly Revenue'[gmv])
+		formatString: #,0.00
+		lineageTag: 8af14d11-3c73-4782-8847-3ad0366cfb2e
+
+	measure 'Item Value' = SUM('Monthly Revenue'[item_value])
+		formatString: #,0.00
+		lineageTag: d91e8770-e6dd-49e4-989b-631685dd5961
+
+	measure Freight = SUM('Monthly Revenue'[freight_value])
+		formatString: #,0.00
+		lineageTag: 3c2bfd3a-a179-41da-b5c9-331af194fb8d
+
+	measure Payments = SUM('Monthly Revenue'[payment_value])
+		formatString: #,0.00
+		lineageTag: b2864952-0338-4d52-ab78-3e48e9773436
+
+	measure Orders = SUM('Monthly Revenue'[order_count])
+		formatString: #,0
+		lineageTag: bdb20a9d-27c0-4c3a-847f-bd285226a528
+
+	measure 'Orders with GMV' = SUM('Monthly Revenue'[orders_with_gmv])
+		formatString: #,0
+		lineageTag: a53454a1-70b8-42bd-a6ea-d72d013aba6e
+
+	measure 'Orders Missing GMV' = SUM('Monthly Revenue'[orders_missing_gmv])
+		formatString: #,0
+		lineageTag: 5ab2e174-1a78-4fe2-8ec9-9491879176e3
+
+	measure 'Monthly Purchasing Customers' = IF(HASONEVALUE('Date'[Year Month]), SUM('Monthly Revenue'[unique_customers]))
+		formatString: #,0
+		lineageTag: a8e07314-513e-461c-a58b-f3468274f726
+
+	measure 'Average Order Value' = DIVIDE([Gross Order Value (GMV)], [Orders with GMV])
+		formatString: #,0.00
+		lineageTag: dafa7310-ccf2-4109-b0fe-48aabb785477
+
+	measure 'Previous Month GMV' = CALCULATE([Gross Order Value (GMV)], DATEADD('Date'[Date], -1, MONTH))
+		formatString: #,0.00
+		lineageTag: a6e13cc5-3524-4e15-8a8c-9d7229dd1b31
+
+	measure 'GMV Month-over-Month %' = DIVIDE([Gross Order Value (GMV)] - [Previous Month GMV], [Previous Month GMV])
+		formatString: 0.00%
+		lineageTag: 8563b886-52d6-45ca-b261-b6eeafb73996
+
+	measure 'Reporting Period Label' = "Jan 2017-Aug 2018"
+		lineageTag: 05355c47-8e82-4834-a51d-372bd71d8002
+
+	measure 'GMV (BRL millions)' = DIVIDE([Gross Order Value (GMV)], 1000000)
+		formatString: 0.00
+		lineageTag: 3b24a313-7f0a-4b9e-899a-31fda103f1b9
+
+	measure 'Orders (thousands)' = DIVIDE([Orders], 1000)
+		formatString: 0.0
+		lineageTag: 423c9b0d-6ec0-4637-a83b-03d0862d7e58
+
+	column purchase_month
+		dataType: dateTime
+		formatString: yyyy-MM
+		lineageTag: d62c40b9-f229-43fe-a482-efa67cf722da
+		summarizeBy: none
+		sourceColumn: purchase_month
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column order_count
+		dataType: int64
+		lineageTag: 65039c5e-685d-4191-ab5d-79a21c58d292
+		summarizeBy: sum
+		sourceColumn: order_count
+
+	column orders_with_gmv
+		dataType: int64
+		isHidden
+		lineageTag: 733784d4-0b16-4dae-865a-2d99b1c573c0
+		summarizeBy: sum
+		sourceColumn: orders_with_gmv
+
+	column orders_missing_gmv
+		dataType: int64
+		isHidden
+		lineageTag: 3f36257f-036c-464e-a547-d73c6922d3d4
+		summarizeBy: sum
+		sourceColumn: orders_missing_gmv
+
+	column orders_with_payment
+		dataType: int64
+		isHidden
+		lineageTag: 36b796f1-8510-4416-bba2-b102f4a1fd66
+		summarizeBy: sum
+		sourceColumn: orders_with_payment
+
+	column orders_missing_payment
+		dataType: int64
+		isHidden
+		lineageTag: 642d5fe3-1c2b-4abf-b83f-cc953be3a33b
+		summarizeBy: sum
+		sourceColumn: orders_missing_payment
+
+	column unique_customers
+		dataType: int64
+		lineageTag: 3e19116c-aa01-4f26-bbfd-dbac41584756
+		summarizeBy: sum
+		sourceColumn: unique_customers
+
+	column item_value
+		dataType: double
+		formatString: #,0.00
+		lineageTag: bd06535f-dd2f-4ee0-bdd4-7831f3f39989
+		summarizeBy: sum
+		sourceColumn: item_value
+
+	column freight_value
+		dataType: double
+		formatString: #,0.00
+		lineageTag: b6846b38-b4a8-468a-8739-b7d5a9598439
+		summarizeBy: sum
+		sourceColumn: freight_value
+
+	column gmv
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 780554b0-a7f2-4250-97d8-de890307deb5
+		summarizeBy: sum
+		sourceColumn: gmv
+
+	column payment_value
+		dataType: double
+		formatString: #,0.00
+		lineageTag: d8840233-3949-4cc3-9cf3-76428d170403
+		summarizeBy: sum
+		sourceColumn: payment_value
+
+	column average_order_gmv
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 40119f8a-da51-42c5-95e5-f9722a291406
+		summarizeBy: none
+		sourceColumn: average_order_gmv
+
+	column period_quality
+		dataType: string
+		isHidden
+		lineageTag: 46915217-ca9d-4851-bcf0-1545a8ae8db0
+		summarizeBy: none
+		sourceColumn: period_quality
+
+	partition 'Monthly Revenue' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:\Users\User\Documents\ChatGPT\ecommerce-retention-analysis\data\processed\monthly_revenue_orders.csv"), [Delimiter = ",", Columns = 13, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+					Typed = Table.TransformColumnTypes(Headers, {{"purchase_month", type date}, {"order_count", Int64.Type}, {"orders_with_gmv", Int64.Type}, {"orders_missing_gmv", Int64.Type}, {"orders_with_payment", Int64.Type}, {"orders_missing_payment", Int64.Type}, {"unique_customers", Int64.Type}, {"item_value", type number}, {"freight_value", type number}, {"gmv", type number}, {"payment_value", type number}, {"average_order_gmv", type number}, {"period_quality", type text}}, "en-US")
+				in
+					Typed
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

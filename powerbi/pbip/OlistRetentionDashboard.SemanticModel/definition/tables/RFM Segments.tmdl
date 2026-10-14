@@ -1,0 +1,73 @@
+table 'RFM Segments'
+	lineageTag: 8e1e42cd-0dd5-4da6-ad09-d7423e3cae9c
+
+	measure 'RFM Customers' = SUM('RFM Segments'[customer_count])
+		formatString: #,0
+		lineageTag: 6944ba56-09d9-43e5-b9d2-597261817b3c
+
+	measure 'RFM Customer Share' = DIVIDE([RFM Customers], CALCULATE([RFM Customers], REMOVEFILTERS('RFM Segments'[rfm_segment])))
+		formatString: 0.00%
+		lineageTag: da8c535c-34ad-4552-b5fd-f28fa4c47310
+
+	measure 'RFM Orders' = SUM('RFM Segments'[order_count])
+		formatString: #,0
+		lineageTag: 90f86de8-da6c-45d7-a8db-523e546c23c5
+
+	measure 'RFM Monetary Value' = SUM('RFM Segments'[monetary_value])
+		formatString: #,0.00
+		lineageTag: 62e4aa3e-81c9-4724-9f7a-a672fc6a5658
+
+	measure 'RFM Snapshot Label' = "Snapshot: Sep 1, 2018"
+		lineageTag: 46bb685b-7b01-4dd4-beec-71497cf3ea22
+
+	measure 'RFM Customers (thousands)' = DIVIDE([RFM Customers], 1000)
+		formatString: 0.0
+		lineageTag: 36d4e6d1-5b38-4506-a219-14e3d2565f80
+
+	column rfm_segment
+		dataType: string
+		isKey
+		lineageTag: 394bec48-4700-47e8-9cbd-f85c5172d013
+		summarizeBy: none
+		sourceColumn: rfm_segment
+
+	column customer_count
+		dataType: int64
+		lineageTag: 66e53a73-1ef5-4b9d-92a9-24f0a0eeeafd
+		summarizeBy: sum
+		sourceColumn: customer_count
+
+	column customer_share
+		dataType: double
+		formatString: 0.00%
+		lineageTag: b2b6b102-1d7d-4b43-bd75-1907ed7d3057
+		summarizeBy: none
+		sourceColumn: customer_share
+
+	column order_count
+		dataType: int64
+		lineageTag: c5751cf1-192c-4e47-ba3d-593ade687855
+		summarizeBy: sum
+		sourceColumn: order_count
+
+	column monetary_value
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 46dcb7a1-d503-485b-9f57-fa5c81e17c08
+		summarizeBy: sum
+		sourceColumn: monetary_value
+
+	partition 'RFM Segments' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:\Users\User\Documents\ChatGPT\ecommerce-retention-analysis\data\processed\rfm_segment_summary.csv"), [Delimiter = ",", Columns = 5, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+					Typed = Table.TransformColumnTypes(Headers, {{"rfm_segment", type text}, {"customer_count", Int64.Type}, {"customer_share", type number}, {"order_count", Int64.Type}, {"monetary_value", type number}}, "en-US")
+				in
+					Typed
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

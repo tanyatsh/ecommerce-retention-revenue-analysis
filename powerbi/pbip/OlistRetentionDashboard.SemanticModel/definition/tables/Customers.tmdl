@@ -1,0 +1,118 @@
+table Customers
+	lineageTag: 4e1ffbcc-eeaa-4ef7-aedf-4abf65c137ea
+
+	measure 'Unique Customers' = COUNTROWS('Customers')
+		formatString: #,0
+		lineageTag: 6f6d2df1-d4b8-4288-8888-c88b7ac297a3
+
+	measure 'Repeat Customers' = CALCULATE(COUNTROWS('Customers'), KEEPFILTERS('Customers'[is_repeat_customer] = TRUE()))
+		formatString: #,0
+		lineageTag: cceacd5b-f1f9-42fa-8715-58ee1b504ff2
+
+	measure 'Repeat Customer Share' = DIVIDE([Repeat Customers], [Unique Customers])
+		formatString: 0.00%
+		lineageTag: c088d5f4-a261-4027-a5d4-a71bb7ffd1e1
+
+	column customer_unique_id
+		dataType: string
+		isKey
+		lineageTag: c75310f3-014a-4121-b79f-4bc762a6d3f2
+		summarizeBy: none
+		sourceColumn: customer_unique_id
+
+	column first_reporting_purchase_timestamp
+		dataType: dateTime
+		isHidden
+		lineageTag: 896c629a-ce6a-4fff-bb2e-ff28c1dc49c8
+		summarizeBy: none
+		sourceColumn: first_reporting_purchase_timestamp
+
+		variation Изменение
+			isDefault
+			relationship: b2ddd8ed-8ace-44c4-9983-f804b97aff85
+			defaultHierarchy: LocalDateTable_2ffe9be0-098a-47e0-b005-4c26f7b1dc29.'Date Hierarchy'
+
+	column last_reporting_purchase_timestamp
+		dataType: dateTime
+		isHidden
+		lineageTag: e3211db9-0f1e-4c2b-8ad5-fc5dcd8c934f
+		summarizeBy: none
+		sourceColumn: last_reporting_purchase_timestamp
+
+		variation Изменение
+			isDefault
+			relationship: e300794b-6879-4566-b774-43bfc8c3bebd
+			defaultHierarchy: LocalDateTable_bebb2b6c-41fc-4ee4-9011-32ffc02906ed.'Date Hierarchy'
+
+	column reporting_period_order_count
+		dataType: int64
+		lineageTag: 8e356809-fabc-4f27-99df-3aef2114226d
+		summarizeBy: sum
+		sourceColumn: reporting_period_order_count
+
+	column reporting_period_item_value
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 74ded52f-f05c-4467-9b6c-358bb890098f
+		summarizeBy: sum
+		sourceColumn: reporting_period_item_value
+
+	column reporting_period_freight_value
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: fd35780b-6546-42ce-a03a-27330f5cb50e
+		summarizeBy: sum
+		sourceColumn: reporting_period_freight_value
+
+	column reporting_period_gmv
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 2d66b290-7081-40a9-8570-a452d3254de7
+		summarizeBy: sum
+		sourceColumn: reporting_period_gmv
+
+	column reporting_period_payment_value
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 4552d173-4521-45d2-9f31-e2d2d6026eaa
+		summarizeBy: sum
+		sourceColumn: reporting_period_payment_value
+
+	column orders_missing_gmv
+		dataType: int64
+		isHidden
+		lineageTag: 1a93ae82-86b0-4aaf-9448-e2ce39d240e7
+		summarizeBy: sum
+		sourceColumn: orders_missing_gmv
+
+	column orders_missing_payment
+		dataType: int64
+		isHidden
+		lineageTag: fc31e7f0-f0a1-4f4a-9122-3f76cd50b0f1
+		summarizeBy: sum
+		sourceColumn: orders_missing_payment
+
+	column is_repeat_customer
+		dataType: boolean
+		lineageTag: b077e94f-27b3-4b86-8100-bb7fa7369286
+		summarizeBy: none
+		sourceColumn: is_repeat_customer
+
+	partition Customers = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:\Users\User\Documents\ChatGPT\ecommerce-retention-analysis\data\processed\customer_purchase_summary.csv"), [Delimiter = ",", Columns = 11, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+					Typed = Table.TransformColumnTypes(Headers, {{"customer_unique_id", type text}, {"first_reporting_purchase_timestamp", type datetime}, {"last_reporting_purchase_timestamp", type datetime}, {"reporting_period_order_count", Int64.Type}, {"reporting_period_item_value", type number}, {"reporting_period_freight_value", type number}, {"reporting_period_gmv", type number}, {"reporting_period_payment_value", type number}, {"orders_missing_gmv", Int64.Type}, {"orders_missing_payment", Int64.Type}, {"is_repeat_customer", type logical}}, "en-US")
+				in
+					Typed
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

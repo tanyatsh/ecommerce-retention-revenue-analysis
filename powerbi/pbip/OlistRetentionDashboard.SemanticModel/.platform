@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Olist Retention Dashboard"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "27d71e06-b607-4684-865a-3aca2fe63ebd"
+  }
+}

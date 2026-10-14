@@ -1,0 +1,38 @@
+relationship 4f3c240d-7e84-4455-b0ed-1f91b5d44c3d
+	fromColumn: 'Monthly Revenue'.purchase_month
+	toColumn: Date.Date
+
+relationship 7991f112-6749-4879-bb09-f5ceea909c23
+	fromColumn: 'Monthly Experience'.purchase_month
+	toColumn: Date.Date
+
+relationship 1f9b74ae-2b10-4b84-a7f5-a3de7d8cf792
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Cohort Retention'.cohort_month
+	toColumn: LocalDateTable_210afa16-c71b-4910-99f9-c75c46d0954b.Date
+
+relationship a79ced8e-1d38-452a-9b58-464a476dd29d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Cohort Retention'.observation_cutoff
+	toColumn: LocalDateTable_41358b1e-1732-4f7c-b02b-ebd73f5abef7.Date
+
+relationship b2ddd8ed-8ace-44c4-9983-f804b97aff85
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Customers.first_reporting_purchase_timestamp
+	toColumn: LocalDateTable_2ffe9be0-098a-47e0-b005-4c26f7b1dc29.Date
+
+relationship e300794b-6879-4566-b774-43bfc8c3bebd
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Customers.last_reporting_purchase_timestamp
+	toColumn: LocalDateTable_bebb2b6c-41fc-4ee4-9011-32ffc02906ed.Date
+
+relationship baf3156e-c24b-4c1e-8661-46a2fba12906
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Date.Date
+	toColumn: LocalDateTable_5c27045a-8317-4aec-83f7-b5e62a9d1272.Date
+
+relationship cfb460df-c7f0-402c-bf3c-467ea180287d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Date.'Month Start'
+	toColumn: LocalDateTable_062871e2-c7f7-4ed7-9a2c-b88a2430421c.Date
+
