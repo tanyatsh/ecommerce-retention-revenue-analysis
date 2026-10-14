@@ -165,12 +165,12 @@ Power BI Desktop may generate hidden Auto Date/Time tables when saving the PBIP.
 
 ### 4. Open the editable dashboard
 
-The semantic model reads six locally generated CSVs through absolute Power Query paths. After cloning:
+The semantic model reads six locally generated CSVs through one required Power Query text parameter named `DataFolder`. Its published placeholder is `C:\SET_DATA_FOLDER`; update it before the first refresh after cloning.
 
 1. Run the pipeline so the six files below exist under `<repository>\data\processed\`.
 2. Open `powerbi/pbip/OlistRetentionDashboard.pbip` in Power BI Desktop.
-3. Select **Home > Transform data**. For each query, edit the **Source** step and browse to its matching file in the cloned repository. If the Source step has no settings button, open **Advanced Editor** and replace only the path inside `File.Contents("...")`.
-4. Keep the query names and all later transformation steps unchanged, then select **Close & Apply** and refresh.
+3. Select **Home > Transform data > Manage Parameters**, choose `DataFolder`, and set **Current Value** to the absolute path of the cloned repository's `data\processed` folder, for example `D:\Projects\ecommerce-retention-revenue-analysis\data\processed`. Do not include a trailing slash.
+4. Select **Close & Apply** and refresh. The six queries append their own CSV filenames to `DataFolder`; no individual query paths need editing.
 
 | Power Query | CSV under `data/processed/` |
 |---|---|
@@ -181,7 +181,7 @@ The semantic model reads six locally generated CSVs through absolute Power Query
 | `RFM Segments` | `rfm_segment_summary.csv` |
 | `Monthly Experience` | `monthly_delivery_reviews.csv` |
 
-The expected source-path pattern is `<absolute clone path>\data\processed\<file name>`. Refresh will fail if the exports have not been built or any query still points to the original workstation path.
+Refresh will fail until `DataFolder` is changed from its placeholder and the six exports have been built. `File.Contents` always receives the absolute path produced from `DataFolder` plus the required filename; the model does not rely on relative-path behavior.
 
 ## Dataset license and attribution
 

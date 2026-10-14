@@ -84,7 +84,7 @@ table 'Cohort Horizons'
 		mode: import
 		source =
 				let
-					Source = Csv.Document(File.Contents("C:\Users\User\Documents\ChatGPT\ecommerce-retention-analysis\data\processed\cohort_horizon_summary.csv"), [Delimiter = ",", Columns = 5, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+					Source = Csv.Document(File.Contents(DataFolder & "\cohort_horizon_summary.csv"), [Delimiter = ",", Columns = 5, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
 					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
 					Typed = Table.TransformColumnTypes(Headers, {{"month_number", Int64.Type}, {"mature_cohort_count", Int64.Type}, {"eligible_customer_count", Int64.Type}, {"retained_customer_count", Int64.Type}, {"weighted_retention_rate", type number}}, "en-US")
 				in

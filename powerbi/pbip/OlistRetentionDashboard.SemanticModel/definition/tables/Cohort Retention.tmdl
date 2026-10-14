@@ -80,7 +80,7 @@ table 'Cohort Retention'
 		mode: import
 		source =
 				let
-					Source = Csv.Document(File.Contents("C:\Users\User\Documents\ChatGPT\ecommerce-retention-analysis\data\processed\cohort_retention.csv"), [Delimiter = ",", Columns = 7, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+					Source = Csv.Document(File.Contents(DataFolder & "\cohort_retention.csv"), [Delimiter = ",", Columns = 7, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
 					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
 					Typed = Table.TransformColumnTypes(Headers, {{"cohort_month", type date}, {"month_number", Int64.Type}, {"cohort_size", Int64.Type}, {"retained_customers", Int64.Type}, {"observation_cutoff", type date}, {"observation_window_complete", type logical}, {"retention_rate", type number}}, "en-US")
 				in

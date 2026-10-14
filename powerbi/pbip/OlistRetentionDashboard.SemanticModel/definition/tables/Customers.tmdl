@@ -106,7 +106,7 @@ table Customers
 		mode: import
 		source =
 				let
-					Source = Csv.Document(File.Contents("C:\Users\User\Documents\ChatGPT\ecommerce-retention-analysis\data\processed\customer_purchase_summary.csv"), [Delimiter = ",", Columns = 11, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+					Source = Csv.Document(File.Contents(DataFolder & "\customer_purchase_summary.csv"), [Delimiter = ",", Columns = 11, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
 					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
 					Typed = Table.TransformColumnTypes(Headers, {{"customer_unique_id", type text}, {"first_reporting_purchase_timestamp", type datetime}, {"last_reporting_purchase_timestamp", type datetime}, {"reporting_period_order_count", Int64.Type}, {"reporting_period_item_value", type number}, {"reporting_period_freight_value", type number}, {"reporting_period_gmv", type number}, {"reporting_period_payment_value", type number}, {"orders_missing_gmv", Int64.Type}, {"orders_missing_payment", Int64.Type}, {"is_repeat_customer", type logical}}, "en-US")
 				in

@@ -83,7 +83,7 @@ def main() -> int:
 
     for filename, expected_header in CONTRACTS.items():
         path = PROCESSED / filename
-        checks.check(f"file_exists::{filename}", path.is_file(), str(path))
+        checks.check(f"file_exists::{filename}", path.is_file(), str(path.relative_to(ROOT)))
         if not path.is_file():
             continue
         header, rows = read_csv(filename)

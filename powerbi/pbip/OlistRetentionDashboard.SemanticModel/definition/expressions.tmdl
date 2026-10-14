@@ -1,0 +1,4 @@
+expression DataFolder = "C:\SET_DATA_FOLDER" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 9f56a99e-48f7-4d1b-9bf4-26e9a0d0c0dd
+	annotation PBI_NavigationStepName = Navigation
+	annotation PBI_ResultType = Text

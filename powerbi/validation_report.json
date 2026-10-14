@@ -33,7 +33,7 @@
     {
       "check": "file_exists::monthly_revenue_orders.csv",
       "passed": true,
-      "detail": "C:\\Users\\User\\Documents\\ChatGPT\\ecommerce-retention-analysis\\data\\processed\\monthly_revenue_orders.csv"
+      "detail": "data\\processed\\monthly_revenue_orders.csv"
     },
     {
       "check": "header_exact::monthly_revenue_orders.csv",
@@ -48,7 +48,7 @@
     {
       "check": "file_exists::customer_purchase_summary.csv",
       "passed": true,
-      "detail": "C:\\Users\\User\\Documents\\ChatGPT\\ecommerce-retention-analysis\\data\\processed\\customer_purchase_summary.csv"
+      "detail": "data\\processed\\customer_purchase_summary.csv"
     },
     {
       "check": "header_exact::customer_purchase_summary.csv",
@@ -63,7 +63,7 @@
     {
       "check": "file_exists::cohort_retention.csv",
       "passed": true,
-      "detail": "C:\\Users\\User\\Documents\\ChatGPT\\ecommerce-retention-analysis\\data\\processed\\cohort_retention.csv"
+      "detail": "data\\processed\\cohort_retention.csv"
     },
     {
       "check": "header_exact::cohort_retention.csv",
@@ -78,7 +78,7 @@
     {
       "check": "file_exists::cohort_horizon_summary.csv",
       "passed": true,
-      "detail": "C:\\Users\\User\\Documents\\ChatGPT\\ecommerce-retention-analysis\\data\\processed\\cohort_horizon_summary.csv"
+      "detail": "data\\processed\\cohort_horizon_summary.csv"
     },
     {
       "check": "header_exact::cohort_horizon_summary.csv",
@@ -93,7 +93,7 @@
     {
       "check": "file_exists::rfm_segment_summary.csv",
       "passed": true,
-      "detail": "C:\\Users\\User\\Documents\\ChatGPT\\ecommerce-retention-analysis\\data\\processed\\rfm_segment_summary.csv"
+      "detail": "data\\processed\\rfm_segment_summary.csv"
     },
     {
       "check": "header_exact::rfm_segment_summary.csv",
@@ -108,7 +108,7 @@
     {
       "check": "file_exists::monthly_delivery_reviews.csv",
       "passed": true,
-      "detail": "C:\\Users\\User\\Documents\\ChatGPT\\ecommerce-retention-analysis\\data\\processed\\monthly_delivery_reviews.csv"
+      "detail": "data\\processed\\monthly_delivery_reviews.csv"
     },
     {
       "check": "header_exact::monthly_delivery_reviews.csv",

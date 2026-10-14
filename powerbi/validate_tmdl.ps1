@@ -59,10 +59,26 @@ $mTables = @(
         ForEach-Object Name
 )
 $queryOrder = [string[]](ConvertFrom-Json -InputObject $database.Model.Annotations['PBI_QueryOrder'].Value)
-$queryOrderDifference = @(Compare-Object -ReferenceObject $mTables -DifferenceObject $queryOrder)
+$expectedQueryOrder = @('DataFolder') + $mTables
+$queryOrderDifference = @(Compare-Object -ReferenceObject $expectedQueryOrder -DifferenceObject $queryOrder)
 if ($queryOrderDifference.Count -gt 0) {
-    Write-Error "PBI_QueryOrder must contain exactly the M queries. M tables: $($mTables -join ', '); query order: $($queryOrder -join ', ')."
+    Write-Error "PBI_QueryOrder must contain DataFolder and exactly the M table queries. Expected: $($expectedQueryOrder -join ', '); query order: $($queryOrder -join ', ')."
     exit 1
+}
+
+$dataFolder = $database.Model.Expressions['DataFolder']
+if ($null -eq $dataFolder -or $dataFolder.Expression -notmatch 'IsParameterQuery=true' -or $dataFolder.Expression -notmatch 'Type="Text"' -or $dataFolder.Expression -notmatch 'IsParameterQueryRequired=true') {
+    Write-Error 'DataFolder must be a required Power Query text parameter.'
+    exit 1
+}
+
+$expectedCsvByTable = @{
+    'Monthly Revenue' = 'monthly_revenue_orders.csv'
+    'Customers' = 'customer_purchase_summary.csv'
+    'Cohort Retention' = 'cohort_retention.csv'
+    'Cohort Horizons' = 'cohort_horizon_summary.csv'
+    'RFM Segments' = 'rfm_segment_summary.csv'
+    'Monthly Experience' = 'monthly_delivery_reviews.csv'
 }
 
 $validatedMPartitions = 0
@@ -84,10 +100,15 @@ foreach ($table in $database.Model.Tables) {
             Write-Error "M partition '$($partition.Name)' must terminate with 'in Typed'."
             exit 1
         }
-        $fileMatch = [regex]::Match($expression, 'File\.Contents\("([^"]+)"\)')
-        if (-not $fileMatch.Success -or -not (Test-Path -LiteralPath $fileMatch.Groups[1].Value -PathType Leaf)) {
-            Write-Error "M partition '$($partition.Name)' points to a missing CSV file."
-            exit 1
+        $fileMatch = [regex]::Match($expression, 'File\.Contents\(\s*DataFolder\s*&\s*"\\([^"]+)"\s*\)')
+        $expectedCsv = $expectedCsvByTable[$table.Name]
+        if (-not $fileMatch.Success -or $fileMatch.Groups[1].Value -ne $expectedCsv) {
+        	Write-Error "M partition '$($partition.Name)' must read '$expectedCsv' through the DataFolder parameter."
+        	exit 1
+        }
+        if ($expression -match '(?i)[A-Z]:\\Users\\') {
+        	Write-Error "M partition '$($partition.Name)' contains a machine-specific path."
+        	exit 1
         }
     }
 }
@@ -128,7 +149,7 @@ Write-Output "Tables: $($database.Model.Tables.Count)"
 Write-Output "Relationships: $($database.Model.Relationships.Count)"
 Write-Output "Measures: $measureCount"
 Write-Output "M query order: $($queryOrder -join ', ')"
-Write-Output "M partitions and CSV paths verified: $validatedMPartitions"
+Write-Output "DataFolder parameter and M partition filenames verified: $validatedMPartitions"
 Write-Output "Date dependency check: independent calculated table"
 $database.Model.Tables |
     Select-Object Name,

@@ -20,8 +20,8 @@ The publication PDF and preview are stored in the repository-level [docs folder]
 
 2. Confirm the six files listed below exist in `<repository>\data\processed\`.
 3. Open `powerbi/pbip/OlistRetentionDashboard.pbip` in Power BI Desktop.
-4. Select **Home > Transform data**. Update the **Source** step for each of the six queries so `File.Contents(...)` points to its matching CSV under the cloned repository's `data\processed` directory. Use the Source-step settings button or **Advanced Editor**; change only the absolute file path.
-5. Keep all query names and later transformation steps unchanged, then select **Close & Apply** and refresh the semantic model.
+4. Select **Home > Transform data > Manage Parameters** and set the required `DataFolder` text parameter to the cloned repository's absolute `data\processed` path, for example `D:\Projects\ecommerce-retention-revenue-analysis\data\processed`. Do not include a trailing slash.
+5. Select **Close & Apply** and refresh the semantic model. Each query appends its required filename to `DataFolder` before calling `File.Contents`.
 
 ## Required dashboard exports
 
@@ -58,4 +58,4 @@ Each file's grain, key, date scope, and eligibility rule is documented in [metri
 
 The designed semantic model contains seven public business tables and two explicit Date-to-monthly-fact relationships. Power BI Desktop can generate hidden Auto Date/Time tables and relationships when saving the project. The strict validators intentionally flag those generated objects. Disable Auto Date/Time and reconcile generated local date tables before running a clean publication validation.
 
-The PDF is the verified static presentation artifact. Refresh success after cloning must be confirmed in Power BI Desktop because Power Query sources contain local absolute paths.
+The PDF is the verified static presentation artifact. The published `DataFolder` value is the nonworking placeholder `C:\SET_DATA_FOLDER`; every clone must update it before the next refresh. Refresh success must then be confirmed in Power BI Desktop.

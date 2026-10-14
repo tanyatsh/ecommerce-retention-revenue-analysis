@@ -61,7 +61,7 @@ table 'RFM Segments'
 		mode: import
 		source =
 				let
-					Source = Csv.Document(File.Contents("C:\Users\User\Documents\ChatGPT\ecommerce-retention-analysis\data\processed\rfm_segment_summary.csv"), [Delimiter = ",", Columns = 5, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+					Source = Csv.Document(File.Contents(DataFolder & "\rfm_segment_summary.csv"), [Delimiter = ",", Columns = 5, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
 					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
 					Typed = Table.TransformColumnTypes(Headers, {{"rfm_segment", type text}, {"customer_count", Int64.Type}, {"customer_share", type number}, {"order_count", Int64.Type}, {"monetary_value", type number}}, "en-US")
 				in

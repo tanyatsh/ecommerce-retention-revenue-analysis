@@ -136,7 +136,7 @@ table 'Monthly Experience'
 		mode: import
 		source =
 				let
-					Source = Csv.Document(File.Contents("C:\Users\User\Documents\ChatGPT\ecommerce-retention-analysis\data\processed\monthly_delivery_reviews.csv"), [Delimiter = ",", Columns = 12, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+					Source = Csv.Document(File.Contents(DataFolder & "\monthly_delivery_reviews.csv"), [Delimiter = ",", Columns = 12, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
 					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
 					Typed = Table.TransformColumnTypes(Headers, {{"purchase_month", type date}, {"delivered_order_count", Int64.Type}, {"reviewed_order_count", Int64.Type}, {"unreviewed_order_count", Int64.Type}, {"multiple_review_order_count", Int64.Type}, {"review_coverage_rate", type number}, {"average_delivery_days", type number}, {"average_delivery_delay_days", type number}, {"late_delivery_rate", type number}, {"average_review_score", type number}, {"late_delivery_review_score", type number}, {"on_time_review_score", type number}}, "en-US")
 				in

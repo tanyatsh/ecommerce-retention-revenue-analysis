@@ -152,7 +152,7 @@ table 'Monthly Revenue'
 		mode: import
 		source =
 				let
-					Source = Csv.Document(File.Contents("C:\Users\User\Documents\ChatGPT\ecommerce-retention-analysis\data\processed\monthly_revenue_orders.csv"), [Delimiter = ",", Columns = 13, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+					Source = Csv.Document(File.Contents(DataFolder & "\monthly_revenue_orders.csv"), [Delimiter = ",", Columns = 13, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
 					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
 					Typed = Table.TransformColumnTypes(Headers, {{"purchase_month", type date}, {"order_count", Int64.Type}, {"orders_with_gmv", Int64.Type}, {"orders_missing_gmv", Int64.Type}, {"orders_with_payment", Int64.Type}, {"orders_missing_payment", Int64.Type}, {"unique_customers", Int64.Type}, {"item_value", type number}, {"freight_value", type number}, {"gmv", type number}, {"payment_value", type number}, {"average_order_gmv", type number}, {"period_quality", type text}}, "en-US")
 				in

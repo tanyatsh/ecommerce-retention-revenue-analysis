@@ -17,7 +17,7 @@ Open:
 
 `powerbi/pbip/OlistRetentionDashboard.pbip`
 
-The project contains two empty 1280 × 720 pages and an editable semantic model. Select **Home > Refresh**. If the repository was moved, open **Transform data**, select each query, and replace the old repository root in `File.Contents(...)` with the new absolute path to `data/processed`.
+The project contains two completed 1280 × 720 report pages and an editable semantic model. Before the first refresh after cloning, select **Home > Transform data > Manage Parameters** and set `DataFolder` to the absolute path of the repository's `data\processed` folder, without a trailing slash. The published value `C:\SET_DATA_FOLDER` is intentionally a nonworking placeholder. Select **Close & Apply**, then refresh; each query combines `DataFolder` with its CSV filename before calling `File.Contents`.
 
 If the PBIP does not open in the installed Desktop build, enable **Power BI Project (.pbip) save option** and **Store reports using enhanced metadata format (PBIR)** under **File > Options and settings > Options > Preview features**, restart Desktop, then open the `.pbip` again.
 
