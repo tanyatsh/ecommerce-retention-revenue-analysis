@@ -2,7 +2,7 @@
 
 ## Current recommendation
 
-**READY for Power BI dashboard development.** Dashboard-facing exports use one reporting period, January 1, 2017 through August 31, 2018. Explicitly named `_full_history.csv` files preserve the prior broader populations for audit and sensitivity work.
+**COMPLETED — Analytics pipeline validated and two-page Power BI dashboard delivered.** Dashboard-facing exports use one reporting period, January 1, 2017 through August 31, 2018. Explicitly named `_full_history.csv` files preserve the prior broader populations for audit and sensitivity work.
 
 ## Reporting-period consistency
 
@@ -139,4 +139,4 @@ The grain, key, eligibility rule, date scope, and population for each file are d
 
 ## Final status
 
-**READY for Power BI dashboard development.** Comparable KPIs now share one reporting cutoff, late delivery has one internally consistent definition, and RFM groups use explicit, tie-preserving business rules with a ready-to-use segment summary.
+**COMPLETED — Analytics pipeline validated and two-page Power BI dashboard delivered.** Comparable KPIs now share one reporting cutoff, late delivery has one internally consistent definition, and RFM groups use explicit, tie-preserving business rules with a ready-to-use segment summary.
